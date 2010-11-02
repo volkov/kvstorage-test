@@ -60,22 +60,18 @@ public class MongoStorage implements Storage {
 	}
 
 	@Override
-	public void put(String key, String value) {
+	public void put(String key) {
 		BasicDBObject doc = new BasicDBObject();
 		doc.put("key", key);
-		doc.put("value", value);
 		collection.insert(doc);
 	}
 
 	@Override
-	public String get(String key) {
+	public boolean has(String key) {
 		BasicDBObject query = new BasicDBObject();
 		query.put("key", key);
 		DBCursor cursor = collection.find(query);
-		while (cursor.hasNext()) {
-			return cursor.next().get("value").toString();
-		}
-		return null;
+		return cursor.hasNext();
 	}
 
 	/**
@@ -104,6 +100,16 @@ public class MongoStorage implements Storage {
 	 */
 	public int getPort() {
 		return port;
+	}
+
+	@Override
+	public void clean() {
+		collection.drop();
+	}
+	
+	@Override
+	public String toString(){
+		return "MongoDB";
 	}
 
 }

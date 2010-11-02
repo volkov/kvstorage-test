@@ -7,4 +7,15 @@
 		<property name="host" value="localhost" />
 		<property name="port" value="27017" />
 	</bean>
+
+	<bean id="tester" class="git.volkov.kvstorage.StorageTester">
+		<property name="putFile" value="src/test/resources/put" />
+		<property name="getFile" value="src/test/resources/get" />
+		<property name="storages">
+			<list>
+				<ref local="mongo" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

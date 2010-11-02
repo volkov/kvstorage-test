@@ -34,11 +34,7 @@ public class Main {
                 LOG.info("Context is closed");
             }
         });
-		LOG.info("Create Mogo bean");
-		
-		Storage mongoStorage = (Storage) context.getBean("mongo");
-		mongoStorage.init();
-		mongoStorage.put("1", "2");
-		LOG.info(mongoStorage.get("1"));
+        StorageTester tester = (StorageTester) context.getBean("tester");
+        tester.runTest();
 	}
 }
