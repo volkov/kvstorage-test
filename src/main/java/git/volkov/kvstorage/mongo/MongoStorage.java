@@ -54,7 +54,7 @@ public class MongoStorage implements Storage {
 	 */
 	@Override
 	public void init() throws Exception {
-		mongo = new Mongo();
+		mongo = new Mongo(host,port);
 		DB db = mongo.getDB("test");
 		collection = db.getCollection("test");
 	}
