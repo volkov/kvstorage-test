@@ -57,6 +57,7 @@ public class MongoStorage implements Storage {
 		mongo = new Mongo(host,port);
 		DB db = mongo.getDB("test");
 		collection = db.getCollection("test");
+		collection.ensureIndex("key");
 	}
 
 	@Override

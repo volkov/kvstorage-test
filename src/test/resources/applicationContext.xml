@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="mongo" class="git.volkov.kvstorage.mongo.MongoStorage">
-		<property name="host" value="localhost" />
+		<property name="host" value="10.214.14.239" />
 		<property name="port" value="27017" />
 	</bean>
 
 	<bean id="tester" class="git.volkov.kvstorage.StorageTester">
-		<property name="putFile" value="src/test/resources/put" />
-		<property name="getFile" value="src/test/resources/get" />
+		<property name="putFile" value="outurls" />
+		<property name="getFile" value="inurls" />
 		<property name="storages">
 			<list>
 				<ref local="mongo" />
