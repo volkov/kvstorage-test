@@ -37,12 +37,12 @@ public class MemcachedStorage implements Storage {
 
 	@Override
 	public void put(String key) throws Exception {
-		client.set(key, 0, "true");
+		client.set(String.valueOf(key.hashCode()), 0, "true");
 	}
 
 	@Override
 	public boolean has(String key) throws Exception {
-		return (client.get(key) != null);
+		return (client.get(String.valueOf(key.hashCode())) != null);
 	}
 
 	@Override
@@ -64,5 +64,8 @@ public class MemcachedStorage implements Storage {
 	public String getHost() {
 		return host;
 	}
-
+	
+	public String toString(){
+		return "Memcached";
+	}
 }
