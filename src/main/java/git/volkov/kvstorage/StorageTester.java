@@ -57,7 +57,7 @@ public class StorageTester {
 	}
 
 	private void runGet(Storage storage) throws Exception {
-		LOG.info("Testing get for storage" + storage.toString());
+		LOG.info("Testing get for storage " + storage.toString());
 		BufferedReader reader = new BufferedReader(new FileReader(getFile));
 		String string;
 		int count = 0;
