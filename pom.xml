@@ -106,14 +106,12 @@
 				<version>2.2-beta-2</version>
 				<configuration>
 					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies
-						</descriptorRef>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 					<archive>
 						<manifest>
 							<mainClass>
-								git.volkov.kvstorage.Main
-							</mainClass>
+								git.volkov.kvstorage.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
