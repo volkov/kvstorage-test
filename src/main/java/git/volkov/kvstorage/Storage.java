@@ -11,18 +11,20 @@ public interface Storage {
 	/**
 	 * Puts key in storage.
 	 * @param key
+	 * @throws Exception 
 	 */
-	void put(String key);
+	void put(String key) throws Exception;
 	
 	/**
 	 * Check if key is in storage now.
 	 * @param key
 	 * @return
 	 */
-	boolean has(String key);
+	boolean has(String key) throws Exception;
 	
 	/**
 	 * Clean all storage data.
+	 * @throws Exception 
 	 */
-	void clean();
+	void clean() throws Exception;
 }

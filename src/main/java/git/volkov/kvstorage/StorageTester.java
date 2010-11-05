@@ -42,7 +42,7 @@ public class StorageTester {
 	 * @param storage
 	 * @throws IOException
 	 */
-	private void runPut(Storage storage) throws IOException {
+	private void runPut(Storage storage) throws Exception {
 		LOG.info("Testing put for storage" + storage.toString());
 		BufferedReader reader = new BufferedReader(new FileReader(putFile));
 		String string;
@@ -56,7 +56,7 @@ public class StorageTester {
 		LOG.info(String.format("Finished %d put for %d ms", count, time));
 	}
 
-	private void runGet(Storage storage) throws IOException {
+	private void runGet(Storage storage) throws Exception {
 		LOG.info("Testing get for storage" + storage.toString());
 		BufferedReader reader = new BufferedReader(new FileReader(getFile));
 		String string;
