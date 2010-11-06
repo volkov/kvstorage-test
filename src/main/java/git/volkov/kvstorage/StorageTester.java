@@ -54,7 +54,7 @@ public class StorageTester {
 
 		@Override
 		public void run() {
-			LOG.info("Start thread " + getName());
+			LOG.debug("Start thread " + getName());
 			String key;
 			try {
 				while ((key = feeder.getLine()) != null) {
@@ -63,33 +63,38 @@ public class StorageTester {
 			} catch (Exception e) {
 				LOG.error("Some error in thread " + this.getName(), e);
 				throw new RuntimeException();
+			} finally {
+				LOG.debug("Finish thread " + getName());
 			}
 		}
 	}
 
 	private class GetThread extends TestThread {
-		
+
 		private int miss = 0;
-		
+
 		public GetThread(Storage storage, FileFeeder feeder) {
 			super(storage, feeder);
 		}
 
 		@Override
 		public void run() {
-			LOG.info("Start thread " + getName());
+			LOG.debug("Start thread " + getName());
 			String key;
 			try {
 				while ((key = feeder.getLine()) != null) {
-					if (!storage.has(key)) miss++;
+					if (!storage.has(key))
+						miss++;
 				}
 			} catch (Exception e) {
 				LOG.error("Some error in thread " + this.getName(), e);
 				throw new RuntimeException();
+			} finally {
+				LOG.debug("Finish thread " + getName());
 			}
 		}
-		
-		public int getMiss(){
+
+		public int getMiss() {
 			return miss;
 		}
 
@@ -112,12 +117,12 @@ public class StorageTester {
 	 * Input file name for keys to test get.
 	 */
 	private String getFile = "get";
-	
+
 	/**
 	 * Number of threads for tests.
 	 */
 	private int threadNumber = 0;
-	
+
 	/**
 	 * Runs put's.
 	 * 
@@ -136,15 +141,16 @@ public class StorageTester {
 
 		LOG.info("Start threads...");
 		long start = System.currentTimeMillis();
-		for (PutThread thread:threads){
+		for (PutThread thread : threads) {
 			thread.start();
 		}
-		for (PutThread thread:threads){
+		for (PutThread thread : threads) {
 			thread.join();
 		}
-		
+
 		long time = System.currentTimeMillis() - start;
-		LOG.info(String.format("Finished %d put for %d ms", feeder.getLines(), time));
+		LOG.info(String.format("Finished %d put for %d ms", feeder.getLines(),
+				time));
 	}
 
 	private void runGet(Storage storage) throws Exception {
@@ -156,24 +162,24 @@ public class StorageTester {
 			GetThread thread = new GetThread(storage, feeder);
 			threads.add(thread);
 		}
-		
+
 		LOG.info("Start threads...");
 		long start = System.currentTimeMillis();
-		for (GetThread thread:threads){
+		for (GetThread thread : threads) {
 			thread.start();
 		}
-		for (GetThread thread:threads){
+		for (GetThread thread : threads) {
 			thread.join();
 		}
 		long time = System.currentTimeMillis() - start;
 
 		int miss = 0;
 		for (GetThread thread : threads) {
-			miss+=thread.getMiss();
+			miss += thread.getMiss();
 		}
-		
-		LOG.info(String.format("Finished %d get with %d miss for %d ms", feeder.getLines(),
-				miss, time));
+
+		LOG.info(String.format("Finished %d get with %d miss for %d ms",
+				feeder.getLines(), miss, time));
 	}
 
 	public void runTest() {
@@ -216,7 +222,8 @@ public class StorageTester {
 	}
 
 	/**
-	 * @param threadNumber the threadNumber to set
+	 * @param threadNumber
+	 *            the threadNumber to set
 	 */
 	public void setThreadNumber(int threadNumber) {
 		this.threadNumber = threadNumber;

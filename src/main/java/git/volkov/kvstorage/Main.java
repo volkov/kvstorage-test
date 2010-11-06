@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
-import git.volkov.kvstorage.mongo.MongoStorage;
+import git.volkov.kvstorage.storage.MongoStorage;
 
 /**
  * Main class of test project.

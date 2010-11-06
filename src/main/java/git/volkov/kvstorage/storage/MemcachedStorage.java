@@ -1,4 +1,4 @@
-package git.volkov.kvstorage.mongo;
+package git.volkov.kvstorage.storage;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -9,6 +9,7 @@ import net.rubyeye.xmemcached.XMemcachedClientBuilder;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.rubyeye.xmemcached.utils.AddrUtil;
 import git.volkov.kvstorage.Storage;
+import git.volkov.kvstorage.utils.Md5Hash;
 
 /**
  * Storage interface for memcached database.
@@ -27,22 +28,28 @@ public class MemcachedStorage implements Storage {
 	 * Memcached client.
 	 */
 	private MemcachedClient client;
+	
+	/**
+	 * We have to calculate hash because we are limited to 250 bytes key.
+	 */
+	private Md5Hash md5Hash;
 
 	@Override
 	public void init() throws Exception {
 		MemcachedClientBuilder memcachedClientBuilder = new XMemcachedClientBuilder(
 				AddrUtil.getAddresses(host));
 		client = memcachedClientBuilder.build();
+		md5Hash=new Md5Hash();
 	}
 
 	@Override
 	public void put(String key) throws Exception {
-		client.set(String.valueOf(key.hashCode()), 0, "true");
+		client.set(md5Hash.getHash(key), 0, "1");
 	}
 
 	@Override
 	public boolean has(String key) throws Exception {
-		return (client.get(String.valueOf(key.hashCode())) != null);
+		return (client.get(md5Hash.getHash(key)) != null);
 	}
 
 	@Override

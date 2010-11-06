@@ -1,4 +1,4 @@
-package git.volkov.kvstorage.mongo;
+package git.volkov.kvstorage.storage;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
