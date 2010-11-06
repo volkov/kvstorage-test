@@ -19,6 +19,8 @@ import git.volkov.kvstorage.utils.Md5Hash;
  */
 public class MemcachedStorage implements Storage {
 
+	private static final int TIMEOUT = 10000;
+
 	/**
 	 * Host with memcached database.
 	 */
@@ -27,29 +29,28 @@ public class MemcachedStorage implements Storage {
 	/**
 	 * Memcached client.
 	 */
-	private MemcachedClient client;
+	protected MemcachedClient client;
 	
 	/**
 	 * We have to calculate hash because we are limited to 250 bytes key.
 	 */
-	private Md5Hash md5Hash;
+	private Md5Hash md5Hash = new Md5Hash();
 
 	@Override
 	public void init() throws Exception {
 		MemcachedClientBuilder memcachedClientBuilder = new XMemcachedClientBuilder(
 				AddrUtil.getAddresses(host));
 		client = memcachedClientBuilder.build();
-		md5Hash=new Md5Hash();
 	}
 
 	@Override
 	public void put(String key) throws Exception {
-		client.set(md5Hash.getHash(key), 0, "1");
+		client.set(md5Hash.getHash(key), 0, "1",TIMEOUT);
 	}
 
 	@Override
 	public boolean has(String key) throws Exception {
-		return (client.get(md5Hash.getHash(key)) != null);
+		return (client.get(md5Hash.getHash(key),TIMEOUT) != null);
 	}
 
 	@Override
