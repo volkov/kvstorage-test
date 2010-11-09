@@ -75,9 +75,62 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<!-- Voldemort -->
+
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>voldermort</groupId>
+			<artifactId>voldermort</artifactId>
+			<version>0.80.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/voldemort-0.81.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>voldermort</groupId>
+			<artifactId>voldermort-test</artifactId>
+			<version>0.80.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/voldemort-test-0.81.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.perf4j</groupId>
+			<artifactId>perf4j</artifactId>
+			<version>0.9.13</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<defaultGoal>install</defaultGoal>
+		
 		<testResources>
 			<testResource>
 				<directory>src/test/resources</directory>
@@ -116,8 +169,59 @@
 					</archive>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+
+			<!-- this plugin makes one jar with all the dependencies in it -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>git.volkov.kvstorage.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.dstovall</groupId>
+				<artifactId>onejar-maven-plugin</artifactId>
+				<version>1.4.1</version>
+				<executions>
+					<execution>
+						<configuration>
+							<!-- Optional, use only if you need to include native libraries (dll's) -->
+							<!-- <binlibs> <fileSet> <directory>${project.build.directory}/dllextract</directory> 
+								<includes> <include>test.dll</include> </includes> </fileSet> </binlibs> -->
+							<!-- Optional, default is false -->
+							<attachToBuild>true</attachToBuild>
+							<!-- Optional, default is "onejar" -->
+							<classifier>onejar</classifier>
+						</configuration>
+						<goals>
+							<goal>one-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
+	<pluginRepositories>
+
+		<pluginRepository>
+			<id>onejar-maven-plugin.googlecode.com</id>
+			<url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+		</pluginRepository>
+
+
+	</pluginRepositories>
 
 
 </project>

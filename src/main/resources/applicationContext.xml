@@ -2,25 +2,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+	
+	
 	<bean id="mongo" class="git.volkov.kvstorage.storage.MongoStorage">
-		<property name="host" value="10.206.113.156" />
+		<property name="host" value="10.251.214.193" />
 		<property name="port" value="27017" />
 	</bean>
 	<bean id="memcached" class="git.volkov.kvstorage.storage.MemcachedStorage">
-		<property name="host" value="10.206.113.156:11211" />
+		<property name="host" value="10.251.214.193:11211" />
 	</bean>
 	<bean id="tokyo" class="git.volkov.kvstorage.storage.TokyoStorage">
-		<property name="host" value="10.206.113.156:1978" />
+		<property name="host" value="10.251.214.193:1978" />
+	</bean>
+	<bean id="voldemort" class="git.volkov.kvstorage.storage.VoldemortStorage">
+		<property name="host" value="tcp://10.251.214.193:6666" />
 	</bean>
 
 	<bean id="tester" class="git.volkov.kvstorage.StorageTester">
 		<property name="putFile" value="outurls" />
 		<property name="getFile" value="inurls" />
-		<property name="threadNumber" value="10" />
+		<property name="threadNumber" value="3" />
 		<property name="storages">
 			<list>
-				<ref local="tokyo"/>
+				<ref local="voldemort"/>
 				<!-- <ref local="memcached"/>
 				<ref local="mongo" /> -->
 			</list>
